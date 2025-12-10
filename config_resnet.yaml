@@ -1,0 +1,30 @@
+model:
+  vit_type: "resnet18"  # 修改为resnet18
+  decoder_channels: [256, 128, 64, 32, 16]
+  num_classes: 1
+  vit_img_size: 224  # 这个参数可以保留但不会被使用
+  pretrained_encoder: "/root/vitunet/result5_encoder_tune/encoder_weights/best_encoder.pth"
+  freeze_encoder: false
+
+data:
+  train_img_dir: "/root/SAM2-UNet/data_001/train/images"
+  train_mask_dir: "/root/SAM2-UNet/data_001/train/masks"
+  val_img_dir: "/root/SAM2-UNet/data_001/val/images"  
+  val_mask_dir: "/root/SAM2-UNet/data_001/val/masks" 
+  input_img_size: 512
+  crop_size: 512
+  batch_size: 8
+  num_workers: 8
+
+training:
+  device: "cuda"
+  learning_rate: 0.0001  # 确保这里是数字，没有引号
+  scheduler: "cosine"
+  T_max: 10
+  eta_min: 0.000001     # 确保这里是数字，没有引号
+  num_epochs: 100
+  save_dir: "/root/vitunet/resnet_finetune_flps"
+  save_period: 100
+  full_val_interval: 50
+  amp: true
+  save_val_images: true
